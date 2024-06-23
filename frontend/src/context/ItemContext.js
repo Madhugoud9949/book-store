@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-
+import '../style.css'
 // Create item context
 const itemContext = createContext();
 
@@ -47,3 +47,29 @@ function CustomItemContext({ children }) {
         if (index !== -1) {
             const updatedCart = [...cart];
             updatedCart.splice(index, 1);
+            setTotalPrice(totalPrice - cart[index].price);
+            setCart(updatedCart);
+            setItemsInCart(itemsInCart - 1);
+            alert(`Removed ${product.title} from the cart!`);
+        } else {
+            console.log("Item not found in the cart");
+        }
+    };
+
+    return (
+        <itemContext.Provider
+            value={{
+                products,
+                addToCart,
+                removeFromCart,
+                itemsInCart,
+                totalPrice,
+            }}
+        >
+            {children}
+        </itemContext.Provider>
+    );
+}
+
+export { itemContext };
+export default CustomItemContext;
